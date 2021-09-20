@@ -94,7 +94,7 @@ const Home = (props) => {
   });
 
   return (
-    <div style={{ marginTop: '8vh' }}>
+    <div style={{ marginTop: '8vh', fontWeight: '100' }}>
       <Carousel
         activeIndex={activeIndex}
         next={next}
@@ -113,7 +113,7 @@ const Home = (props) => {
             </div>
             <CardImg top width="100%" height="60%" src={product.image_url} alt="Card image cap" />
             <CardBody style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', background: "rgba(92, 184, 92, 0.2)" }}>
-              <CardTitle style={{ margin: 'auto' }} tag="h5">{product.name}</CardTitle>
+              <CardTitle style={{ margin: 'auto', fontWeight: '600' }} tag="h5">{product.name}</CardTitle>
               <hr />
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', color: '#6c757d' }}>
                 <CardText><FontAwesomeIcon icon={faWarehouse} /> {product.stock} Left</CardText>
