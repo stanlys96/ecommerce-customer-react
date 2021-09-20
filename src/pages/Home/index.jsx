@@ -123,9 +123,9 @@ const Home = (props) => {
             </CardBody>
           </Card>;
         })}
-      </div></div> : <div style={{ width: '100%', margin: '0 auto' }}>
+      </div></div> : <div style={{ width: '100%', margin: '20px auto 0' }}>
         <Loader
-          style={{ textAlign: 'center', marginTop: '100px' }}
+          style={{ textAlign: 'center' }}
           type="Puff"
           color="#00BFFF"
           height={150}

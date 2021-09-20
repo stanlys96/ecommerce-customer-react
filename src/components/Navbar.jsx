@@ -8,6 +8,7 @@ import { faAd, faHome, faLaptopCode, faShoppingBag, faSignInAlt, faSignOutAlt } 
 import { Button } from 'reactstrap';
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
+import { setIsInRegister } from '../store/action';
 
 const Toast = Swal.mixin({
   toast: true,
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     position: 'fixed',
-    zIndex: 1,
+    zIndex: 5,
   },
   unorderedList: {
     listStyle: 'none',
@@ -52,18 +53,25 @@ const Navbar = () => {
   const classes = useStyles();
   let history = useHistory();
   const dispatch = useDispatch();
+  const status = useSelector(state => state.user.status);
   useEffect(() => {
-  }, []);
+  }, [status]);
   return (
     <AppBar color="primary" className={classes.appBar}>
       <ul className={classes.unorderedList}>
         <li style={{ fontSize: '24px', fontWeight: '500' }}><FontAwesomeIcon icon={faLaptopCode} /> Techintos</li>
         <ul className={classes.secondUnorderedList}>
-          {<li className={classes.li}><Button onClick={() => {  }} color="danger"><FontAwesomeIcon icon={faHome} /> Home</Button></li>}
-          {<li className={classes.li}><Button onClick={() => {  }} color="success"><FontAwesomeIcon icon={faSignInAlt} /> Register</Button></li>}
-          {<li className={classes.li}><Button onClick={() => {  }} color="secondary"><FontAwesomeIcon icon={faAd} /> Banners</Button></li>}
-          {<li className={classes.li}><Button onClick={() => {  }} color="success"><FontAwesomeIcon icon={faShoppingBag} /> Products</Button></li>}
-          {<li className={classes.li}><Button onClick={() => {
+          {(status == null || status == "not_logged_in") && <li className={classes.li}><Button onClick={() => {
+            history.push('/');
+            dispatch(setIsInRegister(false));
+          }} color="danger"><FontAwesomeIcon icon={faHome} /> Home</Button></li>}
+          {(status == null || status == "not_logged_in") && <li className={classes.li}><Button onClick={() => {
+            history.push('/authentication');
+            dispatch(setIsInRegister(true));
+          }} color="success"><FontAwesomeIcon icon={faSignInAlt} /> Register</Button></li>}
+          {(status == "logged_in") && <li className={classes.li}><Button onClick={() => { }} color="secondary"><FontAwesomeIcon icon={faAd} /> Banners</Button></li>}
+          {(status == "logged_in") && <li className={classes.li}><Button onClick={() => { }} color="success"><FontAwesomeIcon icon={faShoppingBag} /> Products</Button></li>}
+          {(status == "logged_in") && <li className={classes.li}><Button onClick={() => {
 
           }} color="danger"><FontAwesomeIcon icon={faSignOutAlt} /> Logout</Button></li>}
         </ul>

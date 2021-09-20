@@ -2,6 +2,7 @@ const initialState = {
   user: {},
   status: localStorage.getItem('loggedIn'),
   message: '',
+  isInRegister: false,
 }
 
 function reducer(state = initialState, action) {
@@ -11,12 +12,16 @@ function reducer(state = initialState, action) {
       return { ...state.user };
     case 'USER/GETSTATUS':
       return { ...state.status };
+    case 'USER/GETINREGISTER':
+      return { ...state.isInRegister };
     case 'USER/SETUSER':
       return { ...state, user: payload };
     case 'USER/SETSTATUS':
       return { ...state, status: payload };
     case 'USER/SETMESSAGE':
       return { ...state, message: payload };
+    case 'USER/SETINREGISTER':
+      return { ...state, isInRegister: payload };
     default:
       return state;
   }

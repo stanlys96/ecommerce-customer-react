@@ -2,6 +2,10 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 const globalUrl = 'https://ecommerce-cms-react.herokuapp.com';
 
+export function setIsInRegister(payload) {
+  return { type: 'USER/SETINREGISTER', payload };
+}
+
 export function getProducts(payload) {
   return { type: 'PRODUCT/GETPRODUCTS', payload };
 }
