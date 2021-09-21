@@ -1,5 +1,7 @@
 const initialState = {
-  user: {},
+  user: {
+    first_name: localStorage.getItem('name'),
+  },
   status: localStorage.getItem('loggedIn'),
   message: '',
   isInRegister: false,

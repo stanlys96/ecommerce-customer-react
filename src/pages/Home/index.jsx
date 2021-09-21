@@ -7,6 +7,7 @@ import {
   Card, CardImg, CardText, CardBody,
   CardTitle, CardSubtitle, Button
 } from 'reactstrap';
+import Swal from 'sweetalert2';
 import Style from 'style-it';
 import Loader from "react-loader-spinner";
 import { makeStyles } from "@material-ui/core/styles";
@@ -119,7 +120,21 @@ const Home = (props) => {
                 <CardText><FontAwesomeIcon icon={faWarehouse} /> {product.stock} Left</CardText>
                 <CardText><FontAwesomeIcon icon={faCreditCard} /> {formatter.format(product.price)}</CardText>
               </div>
-              <Button style={{ width: '100%' }} color="success"><FontAwesomeIcon icon={faShoppingCart} /> Add To Cart</Button>
+              <Button onClick={() => {
+                if (localStorage.getItem('loggedIn') != "logged_in") {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Error...',
+                    text: "You need to login to add to cart!",
+                  });
+                } else {
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Error...',
+                    text: "Successfully added to cart!",
+                  });
+                }
+              }} style={{ width: '100%' }} color="success"><FontAwesomeIcon icon={faShoppingCart} /> Add To Cart</Button>
             </CardBody>
           </Card>;
         })}

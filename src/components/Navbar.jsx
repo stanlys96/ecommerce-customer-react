@@ -4,11 +4,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Typography from "@material-ui/core/Typography";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAd, faHome, faLaptopCode, faShoppingBag, faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faAd, faCartArrowDown, faHome, faLaptopCode, faMoneyCheck, faShoppingBag, faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { Button } from 'reactstrap';
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsInRegister } from '../store/action';
+import { setIsInRegister, setUserStatus } from '../store/action';
 
 const Toast = Swal.mixin({
   toast: true,
@@ -54,6 +54,7 @@ const Navbar = () => {
   let history = useHistory();
   const dispatch = useDispatch();
   const status = useSelector(state => state.user.status);
+  const user = useSelector(state => state.user.user);
   useEffect(() => {
   }, [status]);
   return (
@@ -69,10 +70,16 @@ const Navbar = () => {
             history.push('/authentication');
             dispatch(setIsInRegister(true));
           }} color="success"><FontAwesomeIcon icon={faSignInAlt} /> Register</Button></li>}
-          {(status == "logged_in") && <li className={classes.li}><Button onClick={() => { }} color="secondary"><FontAwesomeIcon icon={faAd} /> Banners</Button></li>}
-          {(status == "logged_in") && <li className={classes.li}><Button onClick={() => { }} color="success"><FontAwesomeIcon icon={faShoppingBag} /> Products</Button></li>}
+          {(status == "logged_in") && <span>Welcome back, {user.first_name}!</span>}
+          {(status == "logged_in") && <li className={classes.li}><Button onClick={() => { }} color="secondary"><FontAwesomeIcon icon={faMoneyCheck} /> Transaction History</Button></li>}
+          {(status == "logged_in") && <li className={classes.li}><Button onClick={() => { }} color="success"><FontAwesomeIcon icon={faCartArrowDown} /> Cart</Button></li>}
           {(status == "logged_in") && <li className={classes.li}><Button onClick={() => {
-
+            dispatch(setUserStatus('not_logged_in'));
+            localStorage.clear();
+            Toast.fire({
+              icon: 'success',
+              title: `Successfully logged out!`
+            });
           }} color="danger"><FontAwesomeIcon icon={faSignOutAlt} /> Logout</Button></li>}
         </ul>
       </ul>
