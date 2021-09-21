@@ -202,7 +202,6 @@ const Authentication = () => {
               setMethod('login');
               await dispatch(loginUser(loginEmail, loginPassword, setLoading));
             }
-
           }} className={classes.formButton} color="primary">{loading ? <Loader
             type="Puff"
             color="#00BFFF"

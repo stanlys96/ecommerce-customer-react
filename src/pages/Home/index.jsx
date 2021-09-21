@@ -5,7 +5,7 @@ import {
   CarouselControl,
   CarouselIndicators,
   Card, CardImg, CardText, CardBody,
-  CardTitle, CardSubtitle, Button
+  CardTitle, CardSubtitle, Button, Modal, ModalHeader, ModalBody, ModalFooter
 } from 'reactstrap';
 import Swal from 'sweetalert2';
 import Style from 'style-it';
@@ -60,6 +60,10 @@ const Home = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
   const products = useSelector(state => state.product.products);
+  const [modal, setModal] = useState(false);
+  const [productTitle, setProductTitle] = useState('');
+
+  const toggle = () => setModal(!modal);
 
   const next = () => {
     if (animating) return;
@@ -112,7 +116,11 @@ const Home = (props) => {
             <div style={{ position: 'absolute', top: 0, right: 0, background: 'rgba(217, 83, 79, 0.7)', padding: 10, borderRadius: 15 }}>
               <p style={{ padding: 0, margin: 0, color: '#ffffff' }}>{product.category}</p>
             </div>
-            <CardImg top width="100%" height="60%" src={product.image_url} alt="Card image cap" />
+            <CardImg onClick={(e) => {
+              e.preventDefault();
+              setProductTitle(product.name);
+              toggle();
+            }} style={{ cursor: 'pointer' }} top width="100%" height="60%" src={product.image_url} alt="Card image cap" />
             <CardBody style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', background: "rgba(92, 184, 92, 0.2)" }}>
               <CardTitle style={{ margin: 'auto', fontWeight: '600' }} tag="h5">{product.name}</CardTitle>
               <hr />
@@ -149,6 +157,15 @@ const Home = (props) => {
         />
         <h2 style={{ textAlign: 'center' }}>Loading...</h2>
       </div>}
+      <Modal isOpen={modal} toggle={toggle}>
+        <ModalHeader toggle={toggle}>{productTitle}</ModalHeader>
+        <ModalBody>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={toggle}>OK</Button>{' '}
+        </ModalFooter>
+      </Modal>
     </div>
   );
 }
