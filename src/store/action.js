@@ -37,6 +37,10 @@ export function getCart(payload) {
   return { type: 'CART/GETCART', payload };
 }
 
+export function getHistory(payload) {
+  return { type: 'HISTORY/GETHISTORY', payload };
+}
+
 export function registerUser(first_name, last_name, email, password, setIsActive, setLoading) {
   return async (dispatch) => {
     setLoading(true);
@@ -170,6 +174,7 @@ export function gettingCart(user_id) {
         url,
         method: 'GET'
       });
+      console.log(response.data);
       dispatch(getCart(response.data));
     } catch (err) {
       console.log(err);
@@ -225,6 +230,79 @@ export function deleteCart(user_id, product_id) {
       });
       dispatch(gettingCart(user_id));
     } catch (err) {
+      console.log(err);
+    }
+  }
+}
+
+export function gettingHistory(user_id) {
+  return async (dispatch) => {
+    try {
+      const url = `${globalUrl}/history/getAll/${user_id}`;
+      const response = await axios({
+        url,
+        method: 'GET'
+      });
+      console.log(response.data, "<<<<");
+      dispatch(getHistory(response.data));
+    } catch (err) {
+      console.log(err);
+    }
+  }
+}
+
+export function checkOut(arrData, setLoading) {
+  return async (dispatch) => {
+    try {
+      let user_id;
+      const addUrl = `${globalUrl}/history/addToHistory`;
+      const delUrl = `${globalUrl}/cart/deleteCart`;
+      const reduceProductStockUrl = `${globalUrl}/products/reduceStock`;
+      let d = new Date(Date.now());
+      for (let i = 0; i < arrData.length; i++) {
+        let cart = arrData[i];
+        user_id = cart.user_id;
+        cart.price = parseInt(cart.price);
+        cart.quantity = parseInt(cart.quantity);
+        cart.user_id = parseInt(cart.user_id);
+        await axios({
+          url: addUrl,
+          method: 'POST',
+          data: {
+            date: d.toDateString(),
+            image_url: cart.image_url,
+            name: cart.name,
+            quantity: cart.quantity,
+            totalPrice: cart.price * cart.quantity,
+            user_id: cart.user_id,
+          }
+        });
+        await axios({
+          url: delUrl,
+          method: 'DELETE',
+          data: {
+            user_id: cart.user_id,
+            product_id: cart.product_id,
+          }
+        })
+        await axios({
+          url: reduceProductStockUrl,
+          method: 'PUT',
+          data: {
+            product_id: cart.product_id,
+            quantity: cart.quantity,
+          }
+        })
+      }
+      dispatch(gettingCart(user_id));
+      setLoading(false);
+      Toast.fire({
+        icon: 'success',
+        title: `Successfully checked out!`,
+      })
+      return { message: 'Success' };
+    } catch (err) {
+      setLoading(false);
       console.log(err);
     }
   }

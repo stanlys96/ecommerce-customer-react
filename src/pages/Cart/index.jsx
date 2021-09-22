@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Swal from 'sweetalert2';
 import { verify } from 'jsonwebtoken';
 import { useDispatch, useSelector } from 'react-redux';
-import { gettingCart, addToCart, deleteCart } from '../../store/action';
+import { gettingCart, addToCart, deleteCart, checkOut } from '../../store/action';
 
 var formatter = new Intl.NumberFormat('id-ID', {
   style: 'currency',
@@ -59,13 +59,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Cart = () => {
+  let d = new Date(Date.now());
   const dispatch = useDispatch();
   const classes = useStyles();
   const cart = useSelector(state => state.cart.cart);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     dispatch(gettingCart(localStorage.getItem('user_id')));
-    console.log(cart);
+    console.log(d.toDateString());
   }, []);
   return (
     <div className={classes.scaffold}>
@@ -81,7 +82,17 @@ const Cart = () => {
           </tr>
         </thead>
         <tbody>
-          {cart.length > 0 ? cart.map((data) => {
+          {loading ? <td colSpan="6"><div style={{ width: '100%', margin: '0 auto' }}>
+            <Loader
+              style={{ textAlign: 'center', marginTop: '10px' }}
+              type="Puff"
+              color="#00BFFF"
+              height={150}
+              width={150}
+              timeout={10000000}
+            />
+            <h2 style={{ textAlign: 'center' }}>Loading...</h2>
+          </div></td> : cart.length > 0 ? cart.map((data) => {
             return <tr>
               <td><img src={data.image_url} style={{ width: '150px' }} /></td>
               <td className={classes.td}>{data.name}</td>
@@ -136,7 +147,7 @@ const Cart = () => {
               <td className={classes.td}>{formatter.format(data.price)}</td>
               <td className={classes.td}>{formatter.format(data.price * data.quantity)}</td>
             </tr>;
-          }) : <td colSpan="7"><div style={{ width: '100%', margin: '20px auto 0' }}>
+          }) : <td colSpan="6"><div style={{ width: '100%', margin: '20px auto 0' }}>
             <h2 style={{ textAlign: 'center' }}>No item yet...</h2>
           </div></td>}
           {cart.length > 0 ? <tr border="0">
@@ -146,9 +157,25 @@ const Cart = () => {
           </tr> : null}
         </tbody>
       </Table>
-      {cart.length > 0 ? <Button color="warning" style={{ padding: '15px 45px', marginBottom: '20px' }} href="#"><FontAwesomeIcon icon={faCreditCard} /> Checkout</Button> : null}
+      {cart.length > 0 ? <Button onClick={() => {
+        Swal.fire({
+          title: 'Checkout',
+          text: `Are you sure you want to checkout ${formatter.format(totalPrice(cart))}?`,
+          icon: 'info',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, shop it!'
+        }).then((result) => {
+          setLoading(true);
+          if (result.isConfirmed) {
+            dispatch(checkOut(cart, setLoading));
+          }
+        })
+      }} color="warning" style={{ padding: '15px 45px', marginBottom: '20px' }} href="#"><FontAwesomeIcon icon={faCreditCard} /> Checkout</Button> : null}
     </div>
   );
 }
 
 export default Cart;
+

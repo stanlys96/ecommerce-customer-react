@@ -71,7 +71,9 @@ const Navbar = () => {
             dispatch(setIsInRegister(true));
           }} color="success"><FontAwesomeIcon icon={faSignInAlt} /> Register</Button></li>}
           {(status == "logged_in") && <span>Welcome back, {user.first_name}!</span>}
-          {(status == "logged_in") && <li className={classes.li}><Button onClick={() => { }} color="secondary"><FontAwesomeIcon icon={faMoneyCheck} /> Transaction History</Button></li>}
+          {(status == "logged_in") && <li className={classes.li}><Button onClick={() => {
+            history.push('/transactionHistory');
+          }} color="secondary"><FontAwesomeIcon icon={faMoneyCheck} /> Transaction History</Button></li>}
           {(status == "logged_in") && <li className={classes.li}><Button onClick={() => { history.push('/cart'); }} color="success"><FontAwesomeIcon icon={faCartArrowDown} /> Cart</Button></li>}
           {(status == "logged_in") && <li className={classes.li}><Button onClick={() => {
             dispatch(setUserStatus('not_logged_in'));

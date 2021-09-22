@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Authentication from './pages/Authentication';
 import Cart from './pages/Cart';
+import TransactionHistory from './pages/TransactionHistory';
 import ProtectedRouteHome from './routes/ProtectedRouteHome';
 import ProtectedRouteCart from './routes/ProtectedRouteCart';
 import { Switch, Route } from 'react-router-dom';
@@ -37,6 +38,11 @@ function App() {
           path="/cart"
           component={Cart}
           isAuth={status} key={3} exact
+        />
+        <ProtectedRouteCart
+          path="/transactionHistory"
+          component={TransactionHistory}
+          isAuth={status} key={4} exact
         />
       </Switch>
     </div>
