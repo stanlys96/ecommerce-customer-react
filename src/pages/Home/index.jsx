@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { gettingProducts } from '../../store/action';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartPlus, faCreditCard, faShoppingCart, faSortAmountDown, faWarehouse } from '@fortawesome/free-solid-svg-icons';
+import { addToCart } from '../../store/action';
 
 var formatter = new Intl.NumberFormat('id-ID', {
   style: 'currency',
@@ -54,6 +55,18 @@ const items = [
   }
 ];
 
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+
 const Home = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -62,6 +75,7 @@ const Home = (props) => {
   const products = useSelector(state => state.product.products);
   const [modal, setModal] = useState(false);
   const [productTitle, setProductTitle] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const toggle = () => setModal(!modal);
 
@@ -82,8 +96,8 @@ const Home = (props) => {
     setActiveIndex(newIndex);
   }
 
-  useEffect(() => {
-    dispatch(gettingProducts());
+  useEffect(async () => {
+    await dispatch(gettingProducts());
   }, []);
 
   const slides = items.map((item) => {
@@ -128,7 +142,7 @@ const Home = (props) => {
                 <CardText><FontAwesomeIcon icon={faWarehouse} /> {product.stock} Left</CardText>
                 <CardText><FontAwesomeIcon icon={faCreditCard} /> {formatter.format(product.price)}</CardText>
               </div>
-              <Button onClick={() => {
+              <Button onClick={async () => {
                 if (localStorage.getItem('loggedIn') != "logged_in") {
                   Swal.fire({
                     icon: 'error',
@@ -136,10 +150,30 @@ const Home = (props) => {
                     text: "You need to login to add to cart!",
                   });
                 } else {
-                  Swal.fire({
-                    icon: 'success',
-                    title: 'Error...',
-                    text: "Successfully added to cart!",
+                  const { value: quantity } = await Swal.fire({
+                    input: 'number',
+                    inputLabel: 'Quantity',
+                    inputPlaceholder: 'Enter quantity',
+                    showCancelButton: true,
+                    confirmButtonText: loading ? <Loader
+                      type="Puff"
+                      color="#00BFFF"
+                      height={35}
+                      width={35}
+                      timeout={10000000} //3 secs
+                    /> : 'Add To Cart',
+                    showConfirmButton: true,
+                    inputValidator: (value) => {
+                      return new Promise((resolve) => {
+                        if (value < 1) {
+                          resolve("Value cannot be less than 1!");
+                        } else if (value > product.stock) {
+                          resolve("Sorry, we don't have that many of this product!");
+                        } else {
+                          dispatch(addToCart(localStorage.getItem('user_id'), product.product_id, value, 'add', resolve, setLoading));
+                        }
+                      })
+                    }
                   });
                 }
               }} style={{ width: '100%' }} color="success"><FontAwesomeIcon icon={faShoppingCart} /> Add To Cart</Button>
