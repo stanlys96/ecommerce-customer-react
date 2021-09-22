@@ -201,6 +201,8 @@ const Authentication = () => {
             } else {
               setMethod('login');
               await dispatch(loginUser(loginEmail, loginPassword, setLoading));
+              localStorage.setItem('loggedIn', true);
+              localStorage.setItem('status', 'logged_in');
             }
           }} className={classes.formButton} color="primary">{loading ? <Loader
             type="Puff"

@@ -9,8 +9,7 @@ const Toast = Swal.mixin({
   timer: 3000,
   timerProgressBar: true,
   didOpen: (toast) => {
-    toast.addEventListener('mouseenter', Swal.stopTimer)
-    toast.addEventListener('mouseleave', Swal.resumeTimer)
+    toast.addEventListener('mouseenter', Swal.close)
   }
 })
 
@@ -163,6 +162,21 @@ export function gettingProducts() {
   }
 }
 
+export function gettingCart(user_id) {
+  return async (dispatch) => {
+    try {
+      const url = `${globalUrl}/cart/getAll/${user_id}`;
+      const response = await axios({
+        url,
+        method: 'GET'
+      });
+      dispatch(getCart(response.data));
+    } catch (err) {
+      console.log(err);
+    }
+  }
+}
+
 export function addToCart(user_id, product_id, quantity, method, resolve, setLoading) {
   setLoading(true);
   return async (dispatch) => {
@@ -177,10 +191,11 @@ export function addToCart(user_id, product_id, quantity, method, resolve, setLoa
           quantity
         }
       });
+      console.log(response.data);
       if (response.data.message != "Success") {
         resolve(response.data.message);
       } else {
-        dispatch(getCart(response.data));
+        dispatch(gettingCart(user_id));
         Toast.fire({
           icon: 'success',
           title: `Successfully added to cart!`,
@@ -192,6 +207,25 @@ export function addToCart(user_id, product_id, quantity, method, resolve, setLoa
       console.log(err);
     } finally {
       setLoading(false);
+    }
+  }
+}
+
+export function deleteCart(user_id, product_id) {
+  return async (dispatch) => {
+    try {
+      const url = `${globalUrl}/cart/deleteCart`;
+      const response = await axios({
+        url,
+        method: 'DELETE',
+        data: {
+          user_id,
+          product_id
+        }
+      });
+      dispatch(gettingCart(user_id));
+    } catch (err) {
+      console.log(err);
     }
   }
 }

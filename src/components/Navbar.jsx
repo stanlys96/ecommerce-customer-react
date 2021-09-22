@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAd, faCartArrowDown, faHome, faLaptopCode, faMoneyCheck, faShoppingBag, faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { Button } from 'reactstrap';
-import { useHistory } from "react-router-dom";
+import { useHistory, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsInRegister, setUserStatus } from '../store/action';
 
@@ -60,7 +60,7 @@ const Navbar = () => {
   return (
     <AppBar color="primary" className={classes.appBar}>
       <ul className={classes.unorderedList}>
-        <li style={{ fontSize: '24px', fontWeight: '500' }}><FontAwesomeIcon icon={faLaptopCode} /> Techintos</li>
+        <NavLink to="/" style={{ fontSize: '24px', fontWeight: '500', textDecoration: 'none', color: '#ffffff' }}><FontAwesomeIcon icon={faLaptopCode} /> Techintos</NavLink>
         <ul className={classes.secondUnorderedList}>
           {(status == null || status == "not_logged_in") && <li className={classes.li}><Button onClick={() => {
             history.push('/');
@@ -72,7 +72,7 @@ const Navbar = () => {
           }} color="success"><FontAwesomeIcon icon={faSignInAlt} /> Register</Button></li>}
           {(status == "logged_in") && <span>Welcome back, {user.first_name}!</span>}
           {(status == "logged_in") && <li className={classes.li}><Button onClick={() => { }} color="secondary"><FontAwesomeIcon icon={faMoneyCheck} /> Transaction History</Button></li>}
-          {(status == "logged_in") && <li className={classes.li}><Button onClick={() => { }} color="success"><FontAwesomeIcon icon={faCartArrowDown} /> Cart</Button></li>}
+          {(status == "logged_in") && <li className={classes.li}><Button onClick={() => { history.push('/cart'); }} color="success"><FontAwesomeIcon icon={faCartArrowDown} /> Cart</Button></li>}
           {(status == "logged_in") && <li className={classes.li}><Button onClick={() => {
             dispatch(setUserStatus('not_logged_in'));
             localStorage.clear();
@@ -80,6 +80,7 @@ const Navbar = () => {
               icon: 'success',
               title: `Successfully logged out!`
             });
+            history.push('/');
           }} color="danger"><FontAwesomeIcon icon={faSignOutAlt} /> Logout</Button></li>}
         </ul>
       </ul>

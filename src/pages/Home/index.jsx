@@ -10,6 +10,7 @@ import {
 import Swal from 'sweetalert2';
 import Style from 'style-it';
 import Loader from "react-loader-spinner";
+import Footer from '../../components/Footer';
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from 'react-redux';
 import { gettingProducts } from '../../store/action';
@@ -62,8 +63,7 @@ const Toast = Swal.mixin({
   timer: 3000,
   timerProgressBar: true,
   didOpen: (toast) => {
-    toast.addEventListener('mouseenter', Swal.stopTimer)
-    toast.addEventListener('mouseleave', Swal.resumeTimer)
+    toast.addEventListener('mouseenter', Swal.close)
   }
 })
 
@@ -76,6 +76,7 @@ const Home = (props) => {
   const [modal, setModal] = useState(false);
   const [productTitle, setProductTitle] = useState('');
   const [loading, setLoading] = useState(false);
+  const status = useSelector(state => state.user.status);
 
   const toggle = () => setModal(!modal);
 
@@ -99,6 +100,10 @@ const Home = (props) => {
   useEffect(async () => {
     await dispatch(gettingProducts());
   }, []);
+
+  useEffect(() => {
+    console.log(status);
+  }, [status]);
 
   const slides = items.map((item) => {
     return (
@@ -143,7 +148,7 @@ const Home = (props) => {
                 <CardText><FontAwesomeIcon icon={faCreditCard} /> {formatter.format(product.price)}</CardText>
               </div>
               <Button onClick={async () => {
-                if (localStorage.getItem('loggedIn') != "logged_in") {
+                if (localStorage.getItem('status') != "logged_in") {
                   Swal.fire({
                     icon: 'error',
                     title: 'Error...',
@@ -200,6 +205,7 @@ const Home = (props) => {
           <Button color="primary" onClick={toggle}>OK</Button>{' '}
         </ModalFooter>
       </Modal>
+      <Footer />
     </div>
   );
 }
