@@ -82,7 +82,7 @@ const Authentication = () => {
   const [loginPassword, setLoginPassword] = useState('');
   const [method, setMethod] = useState('');
   const [loading, setLoading] = useState(false);
-  onFocus = event => {
+  const onFocus = (event) => {
     if (event.target.autocomplete) {
       event.target.autocomplete = "whatever";
     }
