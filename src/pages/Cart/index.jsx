@@ -118,7 +118,7 @@ const Cart = () => {
                       } else if (value > cart.stock) {
                         resolve("Sorry, we don't have that many of this product!");
                       } else {
-                        dispatch(addToCart(localStorage.getItem('user_id'), data.product_id, value, 'free', resolve, setLoading));
+                        dispatch(addToCart(localStorage.getItem('user_id'), data.product_id, value, 'free', resolve));
                       }
                     })
                   }
@@ -167,8 +167,8 @@ const Cart = () => {
           cancelButtonColor: '#d33',
           confirmButtonText: 'Yes, shop it!'
         }).then((result) => {
-          setLoading(true);
           if (result.isConfirmed) {
+            setLoading(true);
             dispatch(checkOut(cart, setLoading));
           }
         })

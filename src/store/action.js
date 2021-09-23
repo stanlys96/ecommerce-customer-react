@@ -182,8 +182,7 @@ export function gettingCart(user_id) {
   }
 }
 
-export function addToCart(user_id, product_id, quantity, method, resolve, setLoading) {
-  setLoading(true);
+export function addToCart(user_id, product_id, quantity, method, resolve,) {
   return async (dispatch) => {
     try {
       const url = `${globalUrl}/cart/updateCart/${method}`;
@@ -203,15 +202,13 @@ export function addToCart(user_id, product_id, quantity, method, resolve, setLoa
         dispatch(gettingCart(user_id));
         Toast.fire({
           icon: 'success',
-          title: `Successfully added to cart!`,
+          title: `Successfully Updated the cart!`,
         })
         resolve();
       }
     } catch (err) {
       resolve(err.message);
       console.log(err);
-    } finally {
-      setLoading(false);
     }
   }
 }
