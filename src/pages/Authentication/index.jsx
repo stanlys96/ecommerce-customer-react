@@ -82,6 +82,11 @@ const Authentication = () => {
   const [loginPassword, setLoginPassword] = useState('');
   const [method, setMethod] = useState('');
   const [loading, setLoading] = useState(false);
+  onFocus = event => {
+    if (event.target.autocomplete) {
+      event.target.autocomplete = "whatever";
+    }
+  };
   useEffect(() => {
     if (message == "Success") {
       if (method == "login") {
@@ -128,11 +133,11 @@ const Authentication = () => {
             </FormGroup>
           </div>
           <FormGroup className={classes.formGroup}>
-            <Input value={registerEmail} onChange={(e) => { setRegisterEmail(e.target.value); }} type="email" name="registerEmail" id="registerEmail" placeholder="Your Email" />
+            <Input onFocus={this.onFocus} autoComplete="off" value={registerEmail} onChange={(e) => { setRegisterEmail(e.target.value); }} type="email" name="registerEmail" id="registerEmail" placeholder="Your Email" />
             <p style={{ color: "#ffffff", fontSize: '13px', marginTop: '5px' }}>Your email will not ever be shared</p>
           </FormGroup>
           <FormGroup className={classes.formGroup}>
-            <Input value={registerPassword} onChange={(e) => { setRegisterPassword(e.target.value); }} type="password" name="registerPassword" id="registerPassword" placeholder="Your Password" />
+            <Input onFocus={this.onFocus} autoComplete="off" value={registerPassword} onChange={(e) => { setRegisterPassword(e.target.value); }} type="password" name="registerPassword" id="registerPassword" placeholder="Your Password" />
           </FormGroup>
           <Button onClick={async () => {
             if (registerEmail == "" || registerPassword == "" || firstName == "" || lastName == "") {
@@ -173,11 +178,11 @@ const Authentication = () => {
         <Form autoComplete="chrome-off" className={classes.form}>
           <FontAwesomeIcon icon={faSignInAlt} className={classes.icon} />
           <FormGroup className={classes.formGroup}>
-            <Input value={loginEmail} onChange={(e) => { setLoginEmail(e.target.value); }} type="email" name="loginEmail" id="loginEmail" placeholder="Your Email" />
+            <Input onFocus={this.onFocus} autoComplete="off" value={loginEmail} onChange={(e) => { setLoginEmail(e.target.value); }} type="email" name="loginEmail" id="loginEmail" placeholder="Your Email" />
             <p style={{ color: "#ffffff", fontSize: '13px', marginTop: '5px' }}>Your email will not ever be shared</p>
           </FormGroup>
           <FormGroup className={classes.formGroup}>
-            <Input value={loginPassword} onChange={(e) => { setLoginPassword(e.target.value); }} type="password" name="loginPassword" id="loginPassword" placeholder="Your Password" />
+            <Input onFocus={this.onFocus} autoComplete="off" value={loginPassword} onChange={(e) => { setLoginPassword(e.target.value); }} type="password" name="loginPassword" id="loginPassword" placeholder="Your Password" />
           </FormGroup>
           <Button onClick={async () => {
             if (loginEmail == "" || loginPassword == "") {
