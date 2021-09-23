@@ -25,8 +25,8 @@ const Toast = Swal.mixin({
 const useStyles = makeStyles((theme) => ({
   scaffold: {
     background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("images/tech_bg.jpeg") no-repeat center center/cover',
-    marginTop: '8vh',
-    height: '92vh',
+    paddingTop: '8vh',
+    height: '100vh',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -175,7 +175,7 @@ const Authentication = () => {
     </div> : <div className={classes.container}>
       <img style={{ width: '40vw', height: '50vh' }} src="images/expensive_laptop_2.jpeg" />
       <div className={classes.formContainer}>
-        <Form autoComplete="chrome-off" className={classes.form}>
+        <Form autoComplete="off" className={classes.form}>
           <FontAwesomeIcon icon={faSignInAlt} className={classes.icon} />
           <FormGroup className={classes.formGroup}>
             <Input onFocus={onFocus} autoComplete="off" value={loginEmail} onChange={(e) => { setLoginEmail(e.target.value); }} type="email" name="loginEmail" id="loginEmail" placeholder="Your Email" />

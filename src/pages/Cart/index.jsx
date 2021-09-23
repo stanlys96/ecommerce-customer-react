@@ -36,8 +36,9 @@ const Toast = Swal.mixin({
 
 const useStyles = makeStyles((theme) => ({
   scaffold: {
-    margin: '12vh auto 0',
+    margin: '0 auto',
     maxWidth: '1200px',
+    paddingTop: '12vh',
   },
   table: {
     fontWeight: '600',

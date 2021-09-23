@@ -25,8 +25,9 @@ const totalPrice = (arrPrice) => {
 
 const useStyles = makeStyles((theme) => ({
   scaffold: {
-    margin: '10vh auto 0',
+    margin: '0 auto',
     maxWidth: '1200px',
+    paddingTop: '10vh',
   },
   title: {
     fontWeight: '600',

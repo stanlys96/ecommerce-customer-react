@@ -25,11 +25,9 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     display: 'flex',
     zIndex: 5,
-    backgroundColor: '#000000',
+    backgroundColor: '#F8F9FA',
     width: '100%',
     position: 'fixed',
-    margin: '0px',
-    backgroundColor: '#fff000'
   },
   unorderedList: {
     listStyle: 'none',
@@ -61,9 +59,9 @@ const Navbar = () => {
   useEffect(() => {
   }, [status]);
   return (
-    <div className={classes.appBar}>
+    <div className={`bg-light ${classes.appBar}`}>
       <ul className={classes.unorderedList}>
-        <NavLink to="/" style={{ fontSize: '24px', fontWeight: '500', textDecoration: 'none', color: '#ffffff' }}><FontAwesomeIcon icon={faLaptopCode} /> Techintos</NavLink>
+        <NavLink to="/" style={{ fontSize: '24px', fontWeight: '500', textDecoration: 'none', color: '#000000' }}><FontAwesomeIcon icon={faLaptopCode} /> Techintos</NavLink>
         <ul className={classes.secondUnorderedList}>
           {(status == null || status == "not_logged_in") && <li className={classes.li}><Button onClick={() => {
             history.push('/');
@@ -86,6 +84,7 @@ const Navbar = () => {
               title: `Successfully logged out!`
             });
             history.push('/');
+            window.scrollTo(0, 0);
           }} color="danger"><FontAwesomeIcon icon={faSignOutAlt} /> Logout</Button></li>}
         </ul>
       </ul>
