@@ -117,7 +117,7 @@ const Authentication = () => {
     </ButtonGroup>
     {isActive == "register" ? <div className={classes.container}>
       <div className={classes.formContainer}>
-        <Form className={classes.form}>
+        <Form autoComplete="chrome-off" className={classes.form}>
           <FontAwesomeIcon icon={faUserPlus} className={classes.icon} />
           <div className={classes.formGrid}>
             <FormGroup className={classes.formGroup}>
@@ -128,11 +128,11 @@ const Authentication = () => {
             </FormGroup>
           </div>
           <FormGroup className={classes.formGroup}>
-            <Input value={registerEmail} onChange={(e) => { setRegisterEmail(e.target.value); }} type="email" name="email" id="exampleEmail" placeholder="Your Email" />
+            <Input value={registerEmail} onChange={(e) => { setRegisterEmail(e.target.value); }} type="email" name="registerEmail" id="registerEmail" placeholder="Your Email" />
             <p style={{ color: "#ffffff", fontSize: '13px', marginTop: '5px' }}>Your email will not ever be shared</p>
           </FormGroup>
           <FormGroup className={classes.formGroup}>
-            <Input value={registerPassword} onChange={(e) => { setRegisterPassword(e.target.value); }} type="password" name="password" id="examplePassword" placeholder="Your Password" />
+            <Input value={registerPassword} onChange={(e) => { setRegisterPassword(e.target.value); }} type="password" name="registerPassword" id="registerPassword" placeholder="Your Password" />
           </FormGroup>
           <Button onClick={async () => {
             if (registerEmail == "" || registerPassword == "" || firstName == "" || lastName == "") {
@@ -170,14 +170,14 @@ const Authentication = () => {
     </div> : <div className={classes.container}>
       <img style={{ width: '40vw', height: '50vh' }} src="images/expensive_laptop_2.jpeg" />
       <div className={classes.formContainer}>
-        <Form className={classes.form}>
+        <Form autoComplete="chrome-off" className={classes.form}>
           <FontAwesomeIcon icon={faSignInAlt} className={classes.icon} />
           <FormGroup className={classes.formGroup}>
-            <Input value={loginEmail} onChange={(e) => { setLoginEmail(e.target.value); }} type="email" name="email" id="exampleEmail" placeholder="Your Email" />
+            <Input value={loginEmail} onChange={(e) => { setLoginEmail(e.target.value); }} type="email" name="loginEmail" id="loginEmail" placeholder="Your Email" />
             <p style={{ color: "#ffffff", fontSize: '13px', marginTop: '5px' }}>Your email will not ever be shared</p>
           </FormGroup>
           <FormGroup className={classes.formGroup}>
-            <Input value={loginPassword} onChange={(e) => { setLoginPassword(e.target.value); }} type="password" name="password" id="examplePassword" placeholder="Your Password" />
+            <Input value={loginPassword} onChange={(e) => { setLoginPassword(e.target.value); }} type="password" name="loginPassword" id="loginPassword" placeholder="Your Password" />
           </FormGroup>
           <Button onClick={async () => {
             if (loginEmail == "" || loginPassword == "") {
