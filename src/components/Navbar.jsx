@@ -23,11 +23,13 @@ const Toast = Swal.mixin({
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    height: '8vh',
     display: 'flex',
-    justifyContent: 'center',
-    position: 'fixed',
     zIndex: 5,
+    backgroundColor: '#000000',
+    width: '100%',
+    position: 'fixed',
+    margin: '0px',
+    backgroundColor: '#fff000'
   },
   unorderedList: {
     listStyle: 'none',
@@ -35,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: "15px 150px 0",
+    width: '100%'
   },
   secondUnorderedList: {
     listStyle: 'none',
@@ -58,7 +61,7 @@ const Navbar = () => {
   useEffect(() => {
   }, [status]);
   return (
-    <AppBar color="primary" className={classes.appBar}>
+    <div className={classes.appBar}>
       <ul className={classes.unorderedList}>
         <NavLink to="/" style={{ fontSize: '24px', fontWeight: '500', textDecoration: 'none', color: '#ffffff' }}><FontAwesomeIcon icon={faLaptopCode} /> Techintos</NavLink>
         <ul className={classes.secondUnorderedList}>
@@ -86,7 +89,7 @@ const Navbar = () => {
           }} color="danger"><FontAwesomeIcon icon={faSignOutAlt} /> Logout</Button></li>}
         </ul>
       </ul>
-    </AppBar>
+    </div>
   );
 }
 

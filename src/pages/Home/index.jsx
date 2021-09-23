@@ -118,7 +118,7 @@ const Home = (props) => {
   });
 
   return (
-    <div style={{ marginTop: '8vh', fontWeight: '100' }}>
+    <div style={{ paddingTop: '8vh', fontWeight: '100' }}>
       <Carousel
         activeIndex={activeIndex}
         next={next}
